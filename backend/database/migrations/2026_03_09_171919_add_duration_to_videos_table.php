@@ -9,14 +9,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('videos', function (Blueprint $table) {
-            $table->integer('duration')->nullable();
+            // só cria se não existir
+            if (!Schema::hasColumn('videos', 'duration')) {
+                $table->integer('duration')->nullable();
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('videos', function (Blueprint $table) {
-            $table->dropColumn('duration');
+            // só remove se existir
+            if (Schema::hasColumn('videos', 'duration')) {
+                $table->dropColumn('duration');
+            }
         });
     }
 };

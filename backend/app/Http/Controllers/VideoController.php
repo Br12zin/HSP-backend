@@ -1,4 +1,7 @@
 <?php
+namespace App\Http\Controllers;
+
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -7,6 +10,24 @@ use FFMpeg\FFProbe;
 
 class VideoController extends Controller
 {
+
+    public function show($id)
+    {
+        $video = Video::find($id);
+        if (!$video) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vídeo não encontrado'
+            ], 404);
+        }
+        return response()->json($video);
+    }
+
+    public function index()
+    {
+        $videos = Video::latest()->get();
+        return response()->json($videos);
+    }
 
     // UPLOAD DE VÍDEO (ADMIN)
     public function upload(Request $request)
@@ -43,7 +64,7 @@ class VideoController extends Controller
 
 
         // url pública
-        $url = '/storage/' . $path;
+        $url = 'storage/' . $path;
 
         // salvar no banco
         $video = Video::create([
