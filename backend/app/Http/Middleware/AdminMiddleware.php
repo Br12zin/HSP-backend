@@ -5,14 +5,16 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdminMiddleware
+class Admin
 {
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->is_admin) {
-            return $next($request);
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'message' => 'Acesso negado'
+            ], 403);
         }
 
-        return response()->json(['message' => 'Acesso não autorizado'], 403);
+        return $next($request);
     }
 }

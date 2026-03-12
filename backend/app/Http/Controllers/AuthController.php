@@ -58,6 +58,14 @@ class AuthController extends Controller
         ]);
     }
 
+    public function logout(Request $request)
+{
+    $request->user()->currentAccessToken()->delete();
+
+    return response()->json([
+        'message' => 'Logout realizado'
+    ]);
+}
     // Rota para testar token
     public function user(Request $request)
     {

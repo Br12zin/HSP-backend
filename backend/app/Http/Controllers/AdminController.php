@@ -61,6 +61,19 @@ class AdminController extends Controller
         return response()->json(['message' => 'Usuário atualizado', 'user' => $user]);
     }
 
+    public function stats()
+{
+    $totalUsers = User::count();
+    $totalAdmins = User::where('is_admin', true)->count();
+    $newToday = User::whereDate('created_at', today())->count();
+
+    return response()->json([
+        'totalUsers' => $totalUsers,
+        'totalAdmins' => $totalAdmins,
+        'newToday' => $newToday
+    ]);
+}
+
     public function deleteUser($id)
     {
         $user = User::findOrFail($id);

@@ -34,7 +34,7 @@ class VideoController extends Controller
 {
     try {
         $request->validate([
-            'video' => 'required|file|mimetypes:video/mp4,video/quicktime|max:102400',
+            'video' => 'required|file|mimetypes:video/mp4,video/quicktime|max:512000',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string'
         ]);
@@ -91,4 +91,27 @@ class VideoController extends Controller
     }
 }
 
+public function destroy($id)
+{
+    $video = Video::find($id);
+
+    if (!$video) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Vídeo não encontrado'
+        ], 404);
+    }
+
+    // remover arquivo do storage
+    $path = str_replace('storage/', '', $video->url);
+    Storage::disk('public')->delete($path);
+
+    // remover do banco
+    $video->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Vídeo deletado com sucesso'
+    ]);
+}
 }

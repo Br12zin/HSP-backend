@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Dados do usuário logado
     Route::get('/user', [AuthController::class, 'user']);
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout']);
     
     // =======================================
     // ROTAS ADMINISTRATIVAS (precisam de token + admin)
@@ -48,11 +50,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/stats', [AdminController::class, 'stats']);
         
         // VÍDEOS (admin)
-        Route::post('/videos', [VideoController::class, 'store']);
         Route::put('/videos/{id}', [VideoController::class, 'update']);
         Route::delete('/videos/{id}', [VideoController::class, 'destroy']);
-
-         // 🔥 NOVA ROTA DE UPLOAD (AQUI!)
-        Route::post('/upload', [VideoController::class, 'upload']);
+        Route::post('/videos/upload', [VideoController::class, 'upload']);
     });
 });
