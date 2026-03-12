@@ -64,7 +64,7 @@ class VideoController extends Controller
 
 
         // url pública
-        $url = 'storage/' . $path;
+        $url = '/storage/' . $path;
 
         // salvar no banco
         $video = Video::create([
