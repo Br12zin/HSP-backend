@@ -25,6 +25,7 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
 //===========================
     Route::get('/videos', [VideoController::class, 'index']);
     Route::get('/videos/{id}', [VideoController::class, 'show']);
+    Route::get('/videos/stream/{filename}', [VideoController::class, 'stream']);
 
 // ===========================================
 // ROTAS PROTEGIDAS (precisam de token)
